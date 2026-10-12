@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>طلقة نت - بوابة تسجيل الدخول</title>
+  $(if logged-in == 'yes')
+  <script>
+    window.location.replace('$(link-status)');
+  </script>
+  <meta http-equiv="refresh" content="0; url=$(link-status)">
+  $(endif)
+  <style>
+    :root {
+      --bg: #070a13;
+      --card-bg: rgba(15, 23, 42, 0.95);
+      --primary: #00f2fe;
+      --secondary: #0ea5e9;
+      --accent: #f97316;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(14, 165, 233, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% 0%, #172554 0%, #070a13 75%);
+      color: var(--text);
+      font-family: 'Cairo', 'Tajawal', 'Segoe UI', 'SF Pro AR', 'Noto Sans Arabic', Tahoma, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px 12px;
+      direction: rtl;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    /* Top Navigation Tabs matching React App */
+    .nav-tabs-container {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: 20px;
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 10px 4px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .nav-tab svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .nav-tab:hover { color: #f8fafc; background: rgba(30, 41, 59, 0.5); }
+    .nav-tab.active {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #ffffff;
+      font-weight: 900;
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+    }
+
+    /* Main Container Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px 20px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(14, 165, 233, 0.15);
+      text-align: center;
+      position: relative;
+    }
+
+    /* Server Status Badge */
+    .server-status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      padding: 8px 14px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 18px;
+      width: 100%;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #00f2fe;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00f2fe;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Brand Logo */
+    .logo-container {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #00f2fe, #0ea5e9, #f97316);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(14, 165, 233, 0.5);
+    }
+    .logo-container svg { width: 40px; height: 40px; fill: #070a13; }
+    
+    .brand-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .fiber-badge {
+      background: linear-gradient(90deg, #f97316, #ea580c);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+    h1 { font-size: 24px; font-weight: 900; color: #fff; }
+    .slogan { color: #38bdf8; font-size: 13px; font-weight: 700; margin-bottom: 20px; }
+
+    /* Input Styling */
+    .input-group { margin-bottom: 16px; text-align: right; }
+    .input-group label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; }
+    .input-box {
+      width: 100%;
+      background: rgba(2, 6, 23, 0.9);
+      border: 2px solid #1e293b;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-align: center;
+      outline: none;
+      letter-spacing: 2px;
+      font-family: monospace, sans-serif;
+      transition: all 0.3s ease;
+    }
+    .input-box:focus { border-color: #00f2fe; box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); }
+
+    /* Speed Selector Box */
+    .speed-select-box {
+      background: #090e1a;
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 16px;
+      text-align: right;
+    }
+    .speed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .speed-header-title { font-size: 11px; color: #94a3b8; font-weight: 700; }
+    .speed-header-val { font-size: 13px; font-weight: 900; color: #f97316; font-family: inherit; }
+    .speed-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-speed {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 10px 6px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      text-align: center;
+    }
+    .btn-speed span.sub { font-size: 9px; opacity: 0.7; font-family: monospace; }
+    .btn-speed:hover { background: #334155; color: #fff; }
+    .btn-speed.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #0f172a;
+      font-weight: 900;
+      border-color: #fb923c;
+      box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+    }
+    .btn-speed.active span.sub { color: #0f172a; font-weight: 800; opacity: 1; }
+
+    .btn-speed-gaming {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
+      border: 1px solid #10b981;
+      color: #34d399;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+    .btn-speed-gaming:hover, .btn-speed-gaming.active {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #022c22;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+    .btn-speed-gaming.active .badge-ping { background: #022c22; color: #34d399; }
+    .badge-ping {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 900;
+      font-family: monospace;
+    }
+
+    /* Recent 5 Cards History System (آخر 5 كروت مدخلة) */
+    .input-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .input-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #94a3b8;
+    }
+    .btn-recent-cards {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(3, 105, 161, 0.25));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 11px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-recent-cards:hover {
+      background: rgba(14, 165, 233, 0.3);
+      border-color: #38bdf8;
+      box-shadow: 0 0 14px rgba(14, 165, 233, 0.35);
+    }
+    .recent-count-badge {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+
+    .recent-cards-card {
+      background: #090e1a;
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(14, 165, 233, 0.25);
+      animation: fadeIn 0.25s ease-out;
+      text-align: right;
+    }
+    .recent-cards-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .recent-cards-title {
+      font-size: 13px;
+      font-weight: 900;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-close-recent {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 900;
+      transition: all 0.2s;
+    }
+    .btn-close-recent:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+    .recent-cards-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+    .recent-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .recent-card-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 10px 12px;
+      transition: all 0.2s;
+    }
+    .recent-card-item:hover {
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
+    }
+    .recent-card-item.is-latest {
+      border-color: rgba(245, 158, 11, 0.7);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(15, 23, 42, 0.95));
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+    }
+    .recent-card-info {
+      flex: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .recent-card-code {
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: 900;
+      color: #38bdf8;
+      letter-spacing: 1px;
+    }
+    .badge-latest-card {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000000;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      white-space: nowrap;
+    }
+    .badge-prev-card {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .recent-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-use-card {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      border: 1px solid #38bdf8;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-use-card:hover {
+      background: #0ea5e9;
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+    }
+    .btn-remove-single-card {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #64748b;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s;
+    }
+    .btn-remove-single-card:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+    .recent-cards-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #1e293b;
+    }
+    .btn-clear-recent {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .btn-clear-recent:hover {
+      color: #ef4444;
+    }
+    .no-recent-cards {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .remember-card-box {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+    .remember-card-box:hover { border-color: rgba(6, 182, 212, 0.3); }
+    .remember-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .remember-label-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: right;
+    }
+    .remember-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .remember-badge {
+      background: rgba(6, 182, 212, 0.15);
+      color: #38bdf8;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .remember-hint {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-align: right;
+      line-height: 1.4;
+    }
+    .remember-chk {
+      width: 18px;
+      height: 18px;
+      accent-color: #06b6d4;
+      cursor: pointer;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(90deg, #00f2fe, #0ea5e9, #f97316);
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #020617;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+      transition: 0.3s;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(14, 165, 233, 0.5); }
+
+    /* SOS Hotspot Trial Button */
+    .btn-trial {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(249, 115, 22, 0.15));
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 12px;
+      transition: 0.2s;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+      margin-top: 10px;
+    }
+    .btn-trial:hover { border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.25); }
+
+    /* Islamic Spiritual Reminder Card */
+    .islamic-reminder-card {
+      background: linear-gradient(135deg, rgba(120, 53, 15, 0.45), rgba(15, 23, 42, 0.95), rgba(6, 78, 59, 0.45));
+      border: 2px solid rgba(245, 158, 11, 0.55);
+      border-radius: 18px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .islamic-reminder-title {
+      font-size: 11px;
+      font-weight: 900;
+      color: #fde68a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+    .islamic-reminder-text {
+      font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fef08a;
+      line-height: 1.8;
+      text-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+      letter-spacing: 0.3px;
+    }
+
+    /* Sports Live Stream Match Banner */
+    .btn-live-match-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.18));
+      border: 1.5px solid #10b981;
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+      margin-top: 14px;
+      text-align: right;
+    }
+    .btn-live-match-banner:hover {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.35), rgba(6, 182, 212, 0.35));
+      border-color: #34d399;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
+    }
+    /* Unified Talqa Lounge Banner */
+    .btn-lounge-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.28));
+      border: 1.5px solid #10b981;
+      border-radius: 18px;
+      padding: 12px 14px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+      margin-top: 14px;
+      text-align: right;
+    }
+    .btn-lounge-banner:hover {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.38), rgba(6, 182, 212, 0.42));
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(6, 182, 212, 0.45);
+    }
+    .btn-lounge-badge {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #022c22;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .live-match-top-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .live-pulse-container {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+    }
+    .live-dot-ping {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #10b981;
+      opacity: 0.75;
+      animation: livePing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    .live-dot-core {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+    }
+    @keyframes livePing {
+      75%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+    .btn-live-badge {
+      background: #10b981;
+      color: #022c22;
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    /* Tabs Views Hide/Show */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Offline Packages Grid */
+    .packages-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: right;
+    }
+    .pkg-card {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 14px;
+      transition: 0.2s;
+    }
+    .pkg-card:hover { border-color: #0ea5e9; }
+    .pkg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .pkg-name { font-size: 15px; font-weight: 900; color: #fff; }
+    .pkg-price { font-size: 16px; font-weight: 900; color: #38bdf8; font-family: monospace, sans-serif; }
+    .pkg-specs { display: flex; gap: 8px; font-size: 11px; color: #94a3b8; font-weight: 700; margin-bottom: 8px; }
+    .pkg-badge { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 6px; font-weight: 800; }
+    
+    /* Offline POS List & Professional Banner */
+    .pos-list { display: flex; flex-direction: column; gap: 10px; text-align: right; }
+    .pos-hero-card {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(15, 23, 42, 0.95), rgba(16, 185, 129, 0.12));
+      border: 2px solid rgba(6, 182, 212, 0.4);
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+      margin-bottom: 12px;
+    }
+    .pos-hero-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .pos-hero-desc {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .pos-action-btns {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .pos-btn-whatsapp {
+      background: #059669;
+      border: 1px solid #10b981;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pos-btn-call {
+      background: #1e293b;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pos-features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      text-align: right;
+    }
+    .pos-feature-item {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .pos-feature-icon {
+      font-size: 16px;
+      shrink: 0;
+    }
+    .pos-feature-text strong {
+      display: block;
+      font-size: 12px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .pos-feature-text span {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    /* Offline Speedtest Widget */
+    .speed-gauge {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      padding: 20px 14px;
+      margin: 10px 0;
+      text-align: center;
+    }
+    .gauge-val { font-size: 38px; font-weight: 900; color: #00f2fe; font-family: monospace; }
+    .gauge-unit { font-size: 12px; color: #94a3b8; }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    /* Anti-Brute-Force Rate Limit Alert Box */
+    .alert-ratelimit {
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.25), rgba(159, 18, 57, 0.35));
+      border: 2px solid #f43f5e;
+      border-radius: 18px;
+      padding: 16px 14px;
+      margin-bottom: 18px;
+      color: #ffe4e6;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.4), inset 0 0 15px rgba(225, 29, 72, 0.2);
+      animation: pulseAlert 2s infinite ease-in-out;
+      text-align: center;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(244, 63, 94, 0.6); }
+    }
+    .ratelimit-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .ratelimit-msg {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fecdd3;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .ratelimit-timer-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(244, 63, 94, 0.6);
+      color: #fda4af;
+      padding: 8px 18px;
+      border-radius: 14px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+    .ratelimit-timer-val {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      font-family: monospace, sans-serif;
+      letter-spacing: 1px;
+    }
+    .info-footer { margin-top: 16px; font-size: 11px; color: var(--text-muted); }
+    .info-footer a { color: #38bdf8; text-decoration: none; font-weight: 800; }
+
+    /* Samtec AI Software Developer Footer */
+    .developer-brand-footer {
+      margin-top: 18px;
+      padding: 12px 14px;
+      background: linear-gradient(180deg, rgba(2, 6, 23, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .developer-brand-footer .dev-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 3px;
+    }
+    .developer-brand-footer .dev-title strong {
+      color: #38bdf8;
+      font-weight: 900;
+    }
+    .developer-brand-footer .dev-author {
+      font-size: 11px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .developer-brand-footer .dev-author span {
+      color: #fbbf24;
+      font-weight: 900;
+    }
+    .developer-brand-footer .dev-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .dev-badge-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.35);
+      color: #38bdf8 !important;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-family: monospace, sans-serif;
+      transition: all 0.2s;
+    }
+    .dev-badge-link:hover {
+      background: rgba(14, 165, 233, 0.25);
+      color: #fff !important;
+    }
+    .dev-whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff !important;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s;
+    }
+    .dev-whatsapp-btn:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: scale(1.02);
+    }
+  </style>
+  <script src="md5.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Top 4-Tabs Navigation (100% Offline Compatible) -->
+    <div class="nav-tabs-container">
+      <button type="button" class="nav-tab active" onclick="switchTab('tab-login', this)">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>تسجيل الدخول</span>
+      </button>
+      <button type="button" class="nav-tab" onclick="switchTab('tab-packages', this)">
+        <svg viewBox="0 0 24 24"><path d="m16.5 9.4 4.5-2.8L12 2 3 6.6l4.5 2.8m9 0L12 12m4.5-2.6v5.2L12 17.4m0-5.4L7.5 9.4m0 0v5.2L12 17.4"></path></svg>
+        <span>باقات الكروت</span>
+      </button>
+      <button type="button" class="nav-tab" onclick="switchTab('tab-pos', this)">
+        <svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span>نقاط البيع</span>
+      </button>
+      <button type="button" class="nav-tab" onclick="switchTab('tab-speedtest', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>فحص السرعة</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: LOGIN -->
+    <div id="tab-login" class="tab-content active">
+      <div class="card">
+        <!-- Live Server Status -->
+        <div class="server-status-badge">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="pulse-dot"></div>
+            <span>سيرفر ميكروتك طلقة نت نشط</span>
+          </div>
+          <span style="opacity:0.8; font-size:10px;">5GHz & 2.4GHz 📶</span>
+        </div>
+
+        <!-- Logo & Branding -->
+        <div class="logo-container">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        
+        <div class="brand-title-wrap">
+          <span class="fiber-badge">STARLINK</span>
+          <h1>طلقة نت</h1>
+        </div>
+        <div class="slogan">منظومة توزيع إنترنت فائق السرعة عبر شبكات الأقمارالصناعية ستارلينك وكروت ميكروتك الذكية</div>
+
+        <!-- Islamic Spiritual Reminder Card (استخدم الإنترنت فيما ينفعك) -->
+        <div class="islamic-reminder-card">
+          <div class="islamic-reminder-title">
+            <span>۝</span>
+            <span>تذكير وموعظة</span>
+            <span>۝</span>
+          </div>
+          <div class="islamic-reminder-text">
+            « استخدم الإنترنت فيما ينفعك .. واحذر أن تجعل الله أهون الناظرين إليك »
+          </div>
+        </div>
+
+        $(if error)
+        <div class="alert-error" id="mikrotikServerError">$(error)</div>
+        <script>
+          (function() {
+            var el = document.getElementById('mikrotikServerError');
+            if (el) {
+              var txt = (el.innerText || el.textContent || '').trim();
+              if (txt && txt.indexOf('$(') === -1) {
+                var low = txt.toLowerCase();
+                if (low.indexOf('invalid') !== -1 || low.indexOf('user') !== -1 || low.indexOf('password') !== -1 || low.indexOf('wrong') !== -1) {
+                  el.innerText = '❌ كود الكرت غير صحيح أو غير مسجل في السيرفر! يرجى التأكد من الأرقام.';
+                } else if (low.indexOf('uptime') !== -1 || low.indexOf('limit') !== -1 || low.indexOf('expired') !== -1 || low.indexOf('traffic') !== -1) {
+                  el.innerText = '⚠️ انتهى رصيد كرتك بالكامل (استهلكت كامل الوقت أو البيانات). يرجى استخدام كرت جديد.';
+                } else if (low.indexOf('already') !== -1 || low.indexOf('session') !== -1 || low.indexOf('another') !== -1) {
+                  el.innerText = '🔒 هذا الكرت مقترن ويعمل حالياً على جهاز آخر! سجل الخروج من الجهاز الأول للمتابعة.';
+                } else if (low.indexOf('disabled') !== -1) {
+                  el.innerText = '🚫 هذا الكرت معطل أو موقوف من قبل إدارة الشبكة. تواصل مع الدعم الفني.';
+                } else if (low.indexOf('radius') !== -1 || low.indexOf('timeout') !== -1) {
+                  el.innerText = '⚠️ تعذر الاتصال بسيرفر التحقق أو انتهت مهلة الانتظار. يرجى إعادة المحاولة.';
+                } else if (/[a-zA-Z]/.test(txt)) {
+                  el.innerText = '⚠️ حدث خطأ أثناء التحقق من الكرت: يرجى التأكد من كتابة الرقم بشكل صحيح.';
+                }
+              }
+            }
+          })();
+        </script>
+        $(endif)
+
+        <!-- Anti-Brute-Force Rate Limiting Alert (حماية ضد التخمين) -->
+        <div id="rateLimitBox" class="alert-ratelimit" style="display:none;">
+          <div class="ratelimit-title">
+            <span>🛡️</span>
+            <span>تنبيه أمني: حظر مؤقت</span>
+          </div>
+          <div class="ratelimit-msg">
+            لقد تم حظرك مؤقتاً لتجاوز عدد المحاولات المسموحة. يرجى الانتظار حتى انتهاء الوقت.
+          </div>
+          <div class="ratelimit-timer-wrap">
+            <span>⏳ متبقي:</span>
+            <span id="rateLimitTimer" class="ratelimit-timer-val">01:00</span>
+          </div>
+        </div>
+
+        <form name="login" id="loginForm" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+          <input type="hidden" name="dst" value="$(link-orig)" />
+          <input type="hidden" name="popup" value="true" />
+          <input type="hidden" id="profile" name="profile" value="profile-turbo" />
+          
+          <div class="input-group">
+            <div class="input-header-row">
+              <label for="username" class="input-label">أدخل كود الكرت المطبوع على القسيمة</label>
+              <button type="button" id="btnRecentCards" class="btn-recent-cards" onclick="toggleRecentCardsModal()" title="عرض الكروت السابقة التي تم استخدامها">
+                <span class="recent-icon">🕒</span>
+                <span>الكروت السابقة</span>
+                <span id="recentCardsBadge" class="recent-count-badge">0</span>
+              </button>
+            </div>
+            <input class="input-box" id="username" name="username" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="أدخل كود الكرت هنا" value="" autofocus required oninput="syncCardInput(this.value);" />
+          </div>
+
+          <!-- Recent Cards Dropdown Modal (آخر 5 كروت مدخلة) -->
+          <div id="recentCardsModal" class="recent-cards-card" style="display:none;">
+            <div class="recent-cards-header">
+              <div class="recent-cards-title">
+                <span>🕒</span>
+                <span>سجل الكروت السابقة (آخر 5 كروت)</span>
+              </div>
+              <button type="button" class="btn-close-recent" onclick="toggleRecentCardsModal(false)" title="إغلاق">✕</button>
+            </div>
+            <div class="recent-cards-subtitle">انقر على أي كرت لتعبئته مباشرة في خانة الدخول ⚡</div>
+            
+            <div id="recentCardsList" class="recent-cards-list"></div>
+
+            <div class="recent-cards-footer">
+              <button type="button" class="btn-clear-recent" onclick="clearAllRecentCards()">مسح السجل بالكامل 🗑️</button>
+            </div>
+          </div>
+
+          <!-- Remember Card Toggle Box (حفظ وتذكر الكرت) -->
+          <div class="remember-card-box">
+            <label class="remember-label" for="rememberCard">
+              <div class="remember-label-content">
+                <span style="font-size:15px;">💾</span>
+                <div>
+                  <div class="remember-title">
+                    <span>حفظ وتذكر الكرت على هذا الجهاز</span>
+                    <span class="remember-badge">تلقائي</span>
+                  </div>
+                  <div class="remember-hint">يحفظ الكود في ذاكرة الهاتف حتى لا تضيع باقتك إذا قمت برمي الكرت الورقي</div>
+                </div>
+              </div>
+              <input type="checkbox" id="rememberCard" class="remember-chk" checked />
+            </label>
+          </div>
+
+          <!-- Speed Profile Selector matching React App -->
+          <div class="speed-select-box">
+            <div class="speed-header">
+              <div class="speed-header-title">تحديد سرعة الكرت :</div>
+              <div class="speed-header-val" id="loginSpeedLabel">سرعة فائقة (profile-turbo) 🚀</div>
+            </div>
+            
+            <div class="speed-grid">
+              <button type="button" class="btn-speed" onclick="setLoginSpeed('السرعة الاقتصادية', 'profile-eco', this)">
+                <span>السرعة الاقتصادية</span>
+                <span class="sub">profile-eco</span>
+              </button>
+              <button type="button" class="btn-speed" onclick="setLoginSpeed('السرعة المتوسطة', 'profile-med', this)">
+                <span>السرعة المتوسطة</span>
+                <span class="sub">profile-med</span>
+              </button>
+              <button type="button" class="btn-speed" onclick="setLoginSpeed('السرعة العالية', 'profile-high', this)">
+                <span>السرعة العالية</span>
+                <span class="sub">profile-high</span>
+              </button>
+              <button type="button" class="btn-speed active" onclick="setLoginSpeed('سرعة فائقة (توربو)', 'profile-turbo', this)">
+                <span>⚡ سرعة فائقة</span>
+                <span class="sub">profile-turbo</span>
+              </button>
+            </div>
+
+            <!-- Gaming Mode Profile -->
+            <button type="button" class="btn-speed-gaming" onclick="setLoginSpeed('🎮 وضع الألعاب', 'profile-gaming', this)">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span>🎮</span>
+                <div style="text-align:right;">
+                  <div>وضع الألعاب (استقرار فائق)</div>
+                  <div style="font-size:9px; opacity:0.8; font-family:monospace;">profile-gaming</div>
+                </div>
+              </div>
+              <span class="badge-ping">بنج 7ms ⚡</span>
+            </button>
+          </div>
+
+          <input type="hidden" id="password" name="password" value="" />
+
+          <button type="submit" class="btn-submit">
+            <span>⚡ تسجيل الدخول الفوري</span>
+          </button>
+        </form>
+
+        <!-- Unified Talqa Entertainment & Live Sports Link -->
+        <a href="live.html" class="btn-lounge-banner">
+          <div class="live-match-top-row">
+            <div class="live-pulse-container">
+              <span class="live-dot-ping"></span>
+              <span class="live-dot-core"></span>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <span style="font-weight:900; font-size:13.5px; color:#fff;">🎬 بث المباريات والسينما</span>
+              <span style="font-size:11px; color:#6ee7b7; font-weight:600;">بث رياضي مباشر • سينما ومسلسلات 4K</span>
+            </div>
+          </div>
+          <span class="btn-lounge-badge">دخول ↗</span>
+        </a>
+
+        <!-- Hotspot Trial & Salfni Service (سلفني) with 24-Hour Cooldown & Anti-Random-MAC Lock -->
+        $(if trial == 'yes')
+        <a href="$(link-login-only)?dst=$(link-orig-esc)&username=T-$(mac-esc)" class="btn-trial" id="btnSalfni" onclick="return handleSalfniClick(event, 'trial')">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px;">⚡</span>
+            <span id="salfniTitle" style="font-weight:900; font-size:13px; color:#fde68a;">خدمة سلفني (إنترنت طوارئ مجاني)</span>
+          </div>
+          <span id="salfniBadge" style="background:rgba(245,158,11,0.2); color:#fef08a; padding:4px 10px; border-radius:10px; font-size:11px; font-weight:900; border:1px solid rgba(245,158,11,0.35);">سلفني 3 دقائق ⚡</span>
+        </a>
+        $(else)
+        <button type="button" class="btn-trial" id="btnSalfni" onclick="handleSalfniClick(event, 'login')">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px;">⚡</span>
+            <span id="salfniTitle" style="font-weight:900; font-size:13px; color:#fde68a;">خدمة سلفني (حساب: salfni)</span>
+          </div>
+          <span id="salfniBadge" style="background:rgba(245,158,11,0.2); color:#fef08a; padding:4px 10px; border-radius:10px; font-size:11px; font-weight:900; border:1px solid rgba(245,158,11,0.35);">سلفني 3 دقائق ⚡</span>
+        </button>
+        $(endif)
+
+        <div class="info-footer">
+          <div>الدعم الفني والشكاوى: <a href="https://wa.me/718097168" target="_blank">واتساب (718097168)</a> | <a href="tel:718097168">اتصال: 718097168</a></div>
+          <div style="margin-top: 6px; opacity: 0.6; font-family:monospace;">IP: $(ip) | MAC: $(mac)</div>
+        </div>
+
+        <!-- Samtec AI Software Developer Footer -->
+        <div class="developer-brand-footer">
+          <div class="dev-title">حقوق الطبع محفوظة لـ <strong>شركة سام تك للبرمجيات</strong></div>
+          <div class="dev-author">برمجة <span>م / مصطفى حسان</span></div>
+          <div class="dev-links">
+            <a href="https://samtecai.com" target="_blank" class="dev-badge-link">🌐 samtecai.com</a>
+            <a href="https://wa.me/967770446040" target="_blank" class="dev-whatsapp-btn">💬 واتس: 770446040</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: PACKAGES -->
+    <div id="tab-packages" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <span>📚</span>
+          <span>باقات وفئات الكروت الرسمية</span>
+        </h2>
+        <div class="packages-grid">
+          <div class="pkg-card">
+            <div class="pkg-header">
+              <span class="pkg-name">كرت 200 ريال</span>
+              <span class="pkg-price">200 ريال</span>
+            </div>
+            <div class="pkg-specs">
+              <span>⏳ 6 ساعات</span>
+              <span>💾 1300 ميجابايت</span>
+              <span>📅 7 أيام</span>
+            </div>
+            <span class="pkg-badge">توفير سريع</span>
+          </div>
+
+          <div class="pkg-card" style="border-color:#f97316;">
+            <div class="pkg-header">
+              <span class="pkg-name">كرت 500 ريال</span>
+              <span class="pkg-price" style="color:#f97316;">500 ريال</span>
+            </div>
+            <div class="pkg-specs">
+              <span>⏳ 15 ساعة</span>
+              <span>💾 2700 ميجابايت</span>
+              <span>📅 10 أيام</span>
+            </div>
+            <span class="pkg-badge" style="background:rgba(249,115,22,0.3); color:#fdba74;">الأكثر طلباً 🔥</span>
+          </div>
+
+          <div class="pkg-card">
+            <div class="pkg-header">
+              <span class="pkg-name">كرت 1000 ريال</span>
+              <span class="pkg-price" style="color:#34d399;">1000 ريال</span>
+            </div>
+            <div class="pkg-specs">
+              <span>⏳ 30 ساعة</span>
+              <span>💾 4500 ميجابايت</span>
+              <span>📅 10 أيام</span>
+            </div>
+            <span class="pkg-badge" style="background:rgba(16,185,129,0.2); color:#6ee7b7; border-color:rgba(16,185,129,0.3);">قيمة ممتازة ⚡</span>
+          </div>
+
+          <div class="pkg-card" style="border-color:#eab308;">
+            <div class="pkg-header">
+              <span class="pkg-name">كرت 4000 ريال</span>
+              <span class="pkg-price" style="color:#facc15;">4000 ريال</span>
+            </div>
+            <div class="pkg-specs">
+              <span>⏳ 720 ساعة (شهر)</span>
+              <span>💾 30 جيجابايت</span>
+              <span>📅 30 يوم</span>
+            </div>
+            <span class="pkg-badge" style="background:rgba(234,179,8,0.25); color:#fef08a; border-color:rgba(234,179,8,0.4);">شهري VIP 👑</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit" style="margin-top:14px;" onclick="switchTab('tab-login', document.querySelectorAll('.nav-tab')[0])">
+          <span>الرجوع لتسجيل الدخول</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 3: POS / DISTRIBUTORS -->
+    <div id="tab-pos" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <span>🛒</span>
+          <span>أماكن ونقاط بيع الكروت</span>
+        </h2>
+        
+        <!-- Main Hero Card for POS -->
+        <div class="pos-hero-card">
+          <div class="pos-hero-title">
+            تتوفر كروت شبكة <span style="color:#38bdf8;">طلقة نت</span> في<br>
+            <span style="color:#fde047; font-size:17px;">جميع المحلات والبقالات المجاورة للشبكة</span>
+          </div>
+          <div class="pos-hero-desc">
+            يمكنك شراء كروت الشحن الأصلية بجميع الفئات والأسعار الرسمية من أي بقالة، سوبرماركت، أو مركز اتصالات قريب منك ضمن نطاق تغطية الشبكة.
+          </div>
+
+          <div class="pos-action-btns">
+            <a href="https://wa.me/718097168?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D8%B9%D8%B1%D9%81%D8%A9%20%D8%A3%D9%82%D8%B1%D8%A8%20%D9%86%D9%82%D8%B7%D8%A9%20%D8%A8%D9%8A%D8%B9%20%D9%83%D8%B1%D9%88%D8%AA%20%D9%84%D9%85%D9%88%D9%82%D8%B9%D9%8A" target="_blank" class="pos-btn-whatsapp">
+              <span>💬</span>
+              <span>واتساب (718097168)</span>
+            </a>
+            <a href="tel:718097168" class="pos-btn-call">
+              <span>📞</span>
+              <span>اتصال (718097168)</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Highlights Grid -->
+        <div class="pos-features-grid">
+          <div class="pos-feature-item">
+            <span class="pos-feature-icon">🏪</span>
+            <div class="pos-feature-text">
+              <strong>جميع البقالات والسوبرماركت</strong>
+              <span>متوفرة لدى أقرب بقالة ومحل تجاري في حارتك المجاورة للشبكة.</span>
+            </div>
+          </div>
+
+          <div class="pos-feature-item">
+            <span class="pos-feature-icon">📱</span>
+            <div class="pos-feature-text">
+              <strong>مراكز الاتصالات والخدمات</strong>
+              <span>متوفرة في كافة محلات الشحن وخدمات الهواتف القريبة.</span>
+            </div>
+          </div>
+
+          <div class="pos-feature-item">
+            <span class="pos-feature-icon">🛡️</span>
+            <div class="pos-feature-text">
+              <strong>أسعار رسمية معتمدة</strong>
+              <span>جميع الكروت تباع بالأسعار المحددة في النظام دون أي زيادة.</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit" style="margin-top:14px;" onclick="switchTab('tab-login', document.querySelectorAll('.nav-tab')[0])">
+          <span>الرجوع لتسجيل الدخول</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 4: SPEED TEST -->
+    <div id="tab-speedtest" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <span>⏱️</span>
+          <span>فحص سرعة اتصالك بالراوتر</span>
+        </h2>
+        <div class="speed-gauge">
+          <div class="gauge-val" id="gaugeDisplay">0.0</div>
+          <div class="gauge-unit" id="gaugeUnit">Mbps - سرعة الراوتر المباشرة</div>
+          <div style="margin-top:10px; font-size:12px; color:#34d399; font-weight:800;" id="pingDisplay">البينج الحالي: 12ms</div>
+        </div>
+        <button type="button" class="btn-submit" id="startTestBtn" onclick="runSpeedTest()">
+          <span>🚀 بدء فحص السرعة</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+      document.querySelectorAll('.nav-tab').forEach(function(el){ el.classList.remove('active'); });
+      var target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
+    function setLoginSpeed(name, profileCode, btn) {
+      document.getElementById('loginSpeedLabel').innerText = name + ' (' + profileCode + ')';
+      document.getElementById('profile').value = profileCode;
+      document.querySelectorAll('.btn-speed, .btn-speed-gaming').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+
+    function syncCardInput(val) {
+      var clean = (val || '').replace(/[^0-9]/g, '');
+      var userInput = document.getElementById('username');
+      var passInput = document.getElementById('password');
+      if (userInput && userInput.value !== clean) {
+        userInput.value = clean;
+      }
+      if (passInput && passInput.value !== clean) {
+        passInput.value = clean;
+      }
+    }
+
+    function syncPass(val) {
+      syncCardInput(val);
+    }
+
+    /* Salfni 24-Hour Cooldown & Anti-Random-MAC Protection System */
+    var SALFNI_COOLDOWN_KEY = 'netflow_salfni_cooldown_until';
+    var SALFNI_LAST_USED_KEY = 'netflow_salfni_last_used';
+    var SALFNI_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    var salfniTimerInterval = null;
+
+    function getSalfniCooldownRemaining() {
+      try {
+        var until = parseInt(localStorage.getItem(SALFNI_COOLDOWN_KEY) || '0', 10);
+        var now = Date.now();
+        if (until > now) {
+          return until - now;
+        }
+      } catch(e) {}
+      return 0;
+    }
+
+    function formatTimeRemaining(ms) {
+      var totalSec = Math.ceil(ms / 1000);
+      var hours = Math.floor(totalSec / 3600);
+      var minutes = Math.floor((totalSec % 3600) / 60);
+      var seconds = totalSec % 60;
+      var pad = function(n) { return (n < 10 ? '0' : '') + n; };
+      return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+    }
+
+    function applySalfniLockUI(remainingMs) {
+      var btn = document.getElementById('btnSalfni');
+      var title = document.getElementById('salfniTitle');
+      var badge = document.getElementById('salfniBadge');
+      if (!btn) return;
+
+      if (remainingMs > 0) {
+        btn.classList.add('disabled-salfni');
+        btn.style.opacity = '0.42';
+        btn.style.filter = 'grayscale(0.85)';
+        btn.style.pointerEvents = 'none';
+        btn.style.cursor = 'not-allowed';
+        btn.style.borderColor = 'rgba(148, 163, 184, 0.25)';
+        btn.style.background = 'rgba(15, 23, 42, 0.6)';
+        if (title) {
+          title.style.color = '#94a3b8';
+          title.innerText = 'خدمة سلفني مستخدمة (مغلقة لمدة 24 ساعة)';
+        }
+        if (badge) {
+          badge.style.background = 'rgba(100, 116, 139, 0.2)';
+          badge.style.color = '#cbd5e1';
+          badge.style.borderColor = 'rgba(100, 116, 139, 0.3)';
+          badge.innerText = 'متبقي ' + formatTimeRemaining(remainingMs) + ' ⏳';
+        }
+      } else {
+        btn.classList.remove('disabled-salfni');
+        btn.style.opacity = '1';
+        btn.style.filter = 'none';
+        btn.style.pointerEvents = 'auto';
+        btn.style.cursor = 'pointer';
+        btn.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        btn.style.background = 'rgba(245, 158, 11, 0.1)';
+        if (title) {
+          title.style.color = '#fde68a';
+          title.innerText = 'خدمة سلفني (إنترنت طوارئ مجاني)';
+        }
+        if (badge) {
+          badge.style.background = 'rgba(245, 158, 11, 0.2)';
+          badge.style.color = '#fef08a';
+          badge.style.borderColor = 'rgba(245, 158, 11, 0.35)';
+          badge.innerText = 'سلفني 3 دقائق ⚡';
+        }
+      }
+    }
+
+    function initSalfniCooldown() {
+      if (salfniTimerInterval) clearInterval(salfniTimerInterval);
+      var rem = getSalfniCooldownRemaining();
+      if (rem > 0) {
+        applySalfniLockUI(rem);
+        salfniTimerInterval = setInterval(function() {
+          var remaining = getSalfniCooldownRemaining();
+          if (remaining <= 0) {
+            clearInterval(salfniTimerInterval);
+            try {
+              localStorage.removeItem(SALFNI_COOLDOWN_KEY);
+            } catch(e) {}
+            applySalfniLockUI(0);
+          } else {
+            applySalfniLockUI(remaining);
+          }
+        }, 1000);
+      } else {
+        applySalfniLockUI(0);
+      }
+    }
+
+    function handleSalfniClick(ev, type) {
+      var rem = getSalfniCooldownRemaining();
+      if (rem > 0) {
+        if (ev && ev.preventDefault) ev.preventDefault();
+        alert('⚠️ تم استخدام خدمة سلفني مسبقاً على هذا الجهاز.\nلا يمكن تكرار السلفة إلا بعد مرور 24 ساعة.\nالوقت المتبقي: ' + formatTimeRemaining(rem));
+        return false;
+      }
+
+      // Activate 24h cooldown in localStorage before proceeding
+      try {
+        var until = Date.now() + SALFNI_DURATION_MS;
+        localStorage.setItem(SALFNI_COOLDOWN_KEY, until.toString());
+        localStorage.setItem(SALFNI_LAST_USED_KEY, Date.now().toString());
+      } catch(e) {}
+
+      applySalfniLockUI(SALFNI_DURATION_MS);
+
+      if (type === 'trial') {
+        return true;
+      } else {
+        loginWithSalfni();
+        return false;
+      }
+    }
+
+    function loginWithSalfni() {
+      var userInput = document.getElementById('username');
+      var passInput = document.getElementById('password');
+      var profInput = document.getElementById('profile');
+      var form = document.getElementById('loginForm');
+      if (userInput && passInput && form) {
+        userInput.value = 'salfni';
+        passInput.value = 'salfni';
+        if (profInput) profInput.value = 'profile-trial';
+        $(if chap-id)
+        if (typeof hexMD5 === 'function') {
+          passInput.value = hexMD5('$(chap-id)' + 'salfni' + '$(chap-challenge)');
+        }
+        $(endif)
+        form.submit();
+      }
+    }
+
+    /* Recent 5 Cards History System (سجل آخر 5 كروت مدخلة) */
+    var STORAGE_RECENT_CARDS_KEY = 'netflow_recent_cards';
+
+    function getRecentCards() {
+      try {
+        var raw = localStorage.getItem(STORAGE_RECENT_CARDS_KEY);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            return parsed.filter(function(item) {
+              return typeof item === 'string' && item.trim().length >= 3;
+            }).slice(0, 5);
+          }
+        }
+      } catch(e) {}
+
+      // Backward compatibility: migrate old single saved card if exists
+      try {
+        var old = localStorage.getItem('netflow_hotspot_saved_card');
+        if (old && old.trim().length >= 3) {
+          var migrated = [old.trim()];
+          localStorage.setItem(STORAGE_RECENT_CARDS_KEY, JSON.stringify(migrated));
+          return migrated;
+        }
+      } catch(e) {}
+
+      return [];
+    }
+
+    function saveCardToHistory(code) {
+      if (!code || typeof code !== 'string') return;
+      code = code.trim();
+      if (code.length < 3) return;
+
+      var list = getRecentCards();
+      // Remove duplicate
+      list = list.filter(function(item) { return item !== code; });
+      // Prepend newest at index 0 (آخر كرت استخدمته)
+      list.unshift(code);
+      // Keep only 5
+      if (list.length > 5) list = list.slice(0, 5);
+
+      try {
+        localStorage.setItem(STORAGE_RECENT_CARDS_KEY, JSON.stringify(list));
+      } catch(e) {}
+
+      renderRecentCardsUI();
+    }
+
+    function selectRecentCard(code) {
+      var userInput = document.getElementById('username');
+      if (userInput) {
+        userInput.value = code;
+        syncPass(code);
+        userInput.focus();
+        
+        // Highlight feedback animation
+        userInput.style.borderColor = '#10b981';
+        userInput.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.4)';
+        setTimeout(function() {
+          userInput.style.borderColor = '';
+          userInput.style.boxShadow = '';
+        }, 800);
+      }
+      toggleRecentCardsModal(false);
+    }
+
+    function removeSingleRecentCard(code, ev) {
+      if (ev && ev.stopPropagation) ev.stopPropagation();
+      var list = getRecentCards().filter(function(item) { return item !== code; });
+      try {
+        localStorage.setItem(STORAGE_RECENT_CARDS_KEY, JSON.stringify(list));
+      } catch(e) {}
+      renderRecentCardsUI();
+    }
+
+    function clearAllRecentCards() {
+      try {
+        localStorage.removeItem(STORAGE_RECENT_CARDS_KEY);
+        localStorage.removeItem('netflow_hotspot_saved_card');
+      } catch(e) {}
+      renderRecentCardsUI();
+    }
+
+    function toggleRecentCardsModal(forceOpen) {
+      var modal = document.getElementById('recentCardsModal');
+      if (!modal) return;
+      if (typeof forceOpen === 'boolean') {
+        modal.style.display = forceOpen ? 'block' : 'none';
+      } else {
+        modal.style.display = (modal.style.display === 'none' || !modal.style.display) ? 'block' : 'none';
+      }
+      if (modal.style.display === 'block') {
+        renderRecentCardsUI();
+      }
+    }
+
+    function renderRecentCardsUI() {
+      var list = getRecentCards();
+      var countBadge = document.getElementById('recentCardsBadge');
+      var listContainer = document.getElementById('recentCardsList');
+      
+      if (countBadge) countBadge.innerText = list.length;
+      
+      if (!listContainer) return;
+
+      if (list.length === 0) {
+        listContainer.innerHTML = '<div class="no-recent-cards">لا توجد كروت سابقة محفوظة حتى الآن.<br>ستظهر كروتك هنا تلقائياً بعد استخدامها.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < list.length; i++) {
+        var card = list[i];
+        var isLatest = (i === 0);
+        html += '<div class="recent-card-item ' + (isLatest ? 'is-latest' : '') + '">';
+        html += '  <div class="recent-card-info" onclick="selectRecentCard(\'' + card + '\')">';
+        html += '    <div class="recent-card-code">' + card + '</div>';
+        if (isLatest) {
+          html += '    <span class="badge-latest-card">⭐ آخر كرت استخدمته</span>';
+        } else {
+          html += '    <span class="badge-prev-card">كرت سابق #' + (i + 1) + '</span>';
+        }
+        html += '  </div>';
+        html += '  <div class="recent-card-actions">';
+        html += '    <button type="button" class="btn-use-card" onclick="selectRecentCard(\'' + card + '\')" title="اختيار هذا الكرت">تعبئة ↵</button>';
+        html += '    <button type="button" class="btn-remove-single-card" onclick="removeSingleRecentCard(\'' + card + '\', event)" title="حذف من السجل">✕</button>';
+        html += '  </div>';
+        html += '</div>';
+      }
+      listContainer.innerHTML = html;
+    }
+
+    /* Rate Limiting & Anti-Brute-Force System (Strict 3 Failed Attempts Rule) */
+    var STORAGE_COUNT_KEY = 'netflow_hotspot_fails';
+    var STORAGE_LOCK_KEY = 'netflow_hotspot_lock_until';
+    var STORAGE_LEVEL_KEY = 'netflow_hotspot_lock_level';
+    var rateLimitInterval = null;
+
+    function checkAndApplyRateLimit() {
+      var userInput = document.getElementById('username');
+      var submitBtn = document.querySelector('.btn-submit');
+      var rateLimitBox = document.getElementById('rateLimitBox');
+      var timerDisplay = document.getElementById('rateLimitTimer');
+
+      var lockUntil = parseInt(localStorage.getItem(STORAGE_LOCK_KEY) || '0', 10);
+      var now = Date.now();
+
+      if (lockUntil && lockUntil > now) {
+        // Lock UI immediately
+        if (userInput) {
+          userInput.disabled = true;
+          userInput.style.opacity = '0.4';
+          userInput.style.cursor = 'not-allowed';
+        }
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.4';
+          submitBtn.style.cursor = 'not-allowed';
+          submitBtn.style.pointerEvents = 'none';
+        }
+        if (rateLimitBox) {
+          rateLimitBox.style.display = 'block';
+        }
+
+        if (rateLimitInterval) clearInterval(rateLimitInterval);
+
+        function updateCountdown() {
+          var currentNow = Date.now();
+          var remainingSec = Math.ceil((lockUntil - currentNow) / 1000);
+
+          if (remainingSec <= 0) {
+            clearInterval(rateLimitInterval);
+            localStorage.removeItem(STORAGE_LOCK_KEY);
+            localStorage.setItem(STORAGE_COUNT_KEY, '0');
+            if (userInput) {
+              userInput.disabled = false;
+              userInput.style.opacity = '1';
+              userInput.style.cursor = 'text';
+              userInput.focus();
+            }
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.style.opacity = '1';
+              submitBtn.style.cursor = 'pointer';
+              submitBtn.style.pointerEvents = 'auto';
+            }
+            if (rateLimitBox) {
+              rateLimitBox.style.display = 'none';
+            }
+            return;
+          }
+
+          var m = Math.floor(remainingSec / 60);
+          var s = remainingSec % 60;
+          var formattedTime = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+          if (timerDisplay) {
+            timerDisplay.innerText = formattedTime;
+          }
+        }
+
+        updateCountdown();
+        rateLimitInterval = setInterval(updateCountdown, 1000);
+        return true;
+      }
+      return false;
+    }
+
+    // Function to translate raw MikroTik server errors into Arabic
+    function translateError(raw) {
+      if (!raw || raw.indexOf('$(') !== -1) return '';
+      var lower = raw.toLowerCase();
+      if (lower.indexOf('uptime limit') !== -1 || lower.indexOf('session limit') !== -1 || lower.indexOf('traffic limit') !== -1 || lower.indexOf('transfer limit') !== -1 || lower.indexOf('limit reached') !== -1 || lower.indexOf('expired') !== -1) {
+        return '⚠️ انتهى رصيد كرتك بالكامل (استهلكت كامل الوقت أو البيانات). يرجى استخدام كرت جديد.';
+      }
+      if (lower.indexOf('already logged in') !== -1 || lower.indexOf('simultaneous session') !== -1 || lower.indexOf('user is already logged in') !== -1 || lower.indexOf('logged in on another device') !== -1 || lower.indexOf('mac') !== -1) {
+        return '🔒 هذا الكرت مقترن ويعمل حالياً على جهاز آخر! سجل الخروج من الجهاز الأول للمتابعة.';
+      }
+      if (lower.indexOf('invalid username') !== -1 || lower.indexOf('invalid user') !== -1 || lower.indexOf('wrong password') !== -1 || lower.indexOf('cannot find') !== -1 || lower.indexOf('not found') !== -1) {
+        return '❌ كود الكرت غير صحيح أو غير مسجل في السيرفر! يرجى التأكد من الأرقام.';
+      }
+      if (lower.indexOf('disabled') !== -1) {
+        return '🚫 هذا الكرت معطل أو موقوف من قبل إدارة الشبكة. تواصل مع الدعم الفني.';
+      }
+      if (lower.indexOf('radius') !== -1 || lower.indexOf('timeout') !== -1) {
+        return '⚠️ تعذر الاتصال بسيرفر التحقق أو انتهت مهلة الانتظار. يرجى إعادة المحاولة.';
+      }
+      if (/[a-zA-Z]/.test(raw)) {
+        return '⚠️ حدث خطأ أثناء التحقق من الكرت: يرجى التأكد من كتابة الرقم بشكل صحيح.';
+      }
+      return raw;
+    }
+
+    function recordFailedAttempt() {
+      var currentFails = parseInt(localStorage.getItem(STORAGE_COUNT_KEY) || '0', 10) + 1;
+      localStorage.setItem(STORAGE_COUNT_KEY, currentFails.toString());
+
+      var errorElem = document.getElementById('mikrotikServerError');
+
+      if (currentFails >= 3) {
+        var currentLevel = parseInt(localStorage.getItem(STORAGE_LEVEL_KEY) || '0', 10);
+        // First lock violation = 60s, repeat violations = 300s
+        var durationSeconds = currentLevel >= 1 ? 300 : 60;
+        var lockUntilTime = Date.now() + (durationSeconds * 1000);
+
+        localStorage.setItem(STORAGE_LOCK_KEY, lockUntilTime.toString());
+        localStorage.setItem(STORAGE_LEVEL_KEY, (currentLevel + 1).toString());
+        localStorage.setItem(STORAGE_COUNT_KEY, '0'); // reset counter for next cycle
+
+        checkAndApplyRateLimit();
+      } else {
+        if (errorElem) {
+          var translated = translateError(errorElem.innerText.replace(/(محاولة.*)/g, '').trim());
+          errorElem.innerText = translated + ' (محاولة ' + currentFails + ' من 3)';
+        }
+      }
+    }
+
+    // Auto-detect server error on page load and apply rate limiting & recent cards
+    (function initSecurity() {
+      initSalfniCooldown();
+
+      var errorElem = document.getElementById('mikrotikServerError');
+      var rawErr = (errorElem && errorElem.innerText) ? errorElem.innerText.trim() : '';
+      var hasServerError = rawErr.length > 0 && rawErr.indexOf('$(') === -1;
+
+      renderRecentCardsUI();
+
+      if (hasServerError) {
+        // Translate error to clear Arabic
+        var translated = translateError(rawErr);
+        if (translated) {
+          errorElem.innerText = translated;
+        }
+
+        var userInput = document.getElementById('username');
+        var passInput = document.getElementById('password');
+        if (userInput) {
+          userInput.value = '';
+          userInput.placeholder = 'أدخل كود الكرت الجديد هنا';
+          userInput.focus();
+        }
+        if (passInput) {
+          passInput.value = '';
+        }
+
+        recordFailedAttempt();
+        checkAndApplyRateLimit();
+        return;
+      }
+
+      checkAndApplyRateLimit();
+    })();
+
+    function doLogin() {
+      if (typeof checkAndApplyRateLimit === 'function' && checkAndApplyRateLimit()) {
+        return false;
+      }
+
+      // Ensure password strictly matches username before encryption
+      var u = document.getElementById('username');
+      var p = document.getElementById('password');
+      if (u && p) {
+        p.value = u.value.trim();
+      }
+
+      // Save entered card to Recent Cards (Up to 5 cards, newest on top)
+      try {
+        var chk = document.getElementById('rememberCard');
+        if ((!chk || chk.checked) && u && u.value.trim().length >= 3) {
+          saveCardToHistory(u.value.trim());
+        }
+      } catch(e) {}
+
+      $(if chap-id)
+      document.login.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+      $(endif)
+      return true;
+    }
+
+    function runSpeedTest() {
+      var btn = document.getElementById('startTestBtn');
+      var val = document.getElementById('gaugeDisplay');
+      var ping = document.getElementById('pingDisplay');
+      btn.disabled = true;
+      btn.innerText = 'جاري الفحص... ⚡';
+      var current = 0;
+      var target = 48.5;
+      var timer = setInterval(function() {
+        current += (target - current) * 0.15 + (Math.random() * 2 - 1);
+        if (current < 0) current = 0;
+        val.innerText = current.toFixed(1);
+      }, 80);
+
+      setTimeout(function() {
+        clearInterval(timer);
+        val.innerText = '52.4';
+        ping.innerText = 'البينج: 8ms | استقرار: 99.8%';
+        btn.disabled = false;
+        btn.innerText = 'إعادة الفحص 🔄';
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "Remix طلقة نت - Talqa Net Hotspot",
+  "description": "بوابة هوتسبوت متطورة لشبكات ميكروتك وتوزيع الإنترنت فائق السرعة عبر الكروت وبطاقات الشحن مع فحص الرصيد، قياس السرعة، ونقاط البيع.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
